@@ -106,6 +106,14 @@ public class ExecutorServiceThreads {
             System.out.println(student);
         }
 
+        // Non Bonafied Students
+        List<Student> nonBonafiedStudents = getNonBonafiedStudents(averagedStudents);
+
+        System.out.println("\n =============== Non-Bonafied Students ===========");
+        for (Student student : nonBonafiedStudents) {
+            System.out.println(student);
+        }
+
     }
 
     // We check if a student is eligible ( we check all in parallel ), then return a list of eligible students
@@ -133,6 +141,15 @@ public class ExecutorServiceThreads {
                 .filter(Student::getIsEligibleForGraduation)
                 .toList();
 
+    }
+
+    // Return students who will not graduate
+    public List<Student> getNonBonafiedStudents(List<Student> students) throws ExecutionException, InterruptedException {
+        List<Student> bonafiedStudents = getEligibleStudents(students);
+
+        return bonafiedStudents.stream()
+                .filter(s -> !s.getIsEligibleForGraduation())
+                .toList();
     }
 
 
